@@ -27,9 +27,12 @@ class cząsteczka():
 
 
     def odbicie(self):
-        if self.y > 800 - self.promien - 10:
+        if self.y > 800 - self.promien:
             #self.y = 2 * (800 - self.promien - 10) - self.y
             self.kąt = - self.kąt
+
+        if self.y > 800 - self.promien + 5:
+            self.y = 800 - self.promien + 2
 
         if self.x < 0:
             self.kąt = math.pi - self.kąt
