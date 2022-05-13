@@ -32,7 +32,7 @@ class cząsteczka():
             self.kąt = - self.kąt
 
         if self.y > 800 - self.promien + 5:
-            self.y = 800 - self.promien + 2
+            self.y = 800 - self.promien + int(0.04*self.promien)
 
         if self.x < 0:
             self.kąt = math.pi - self.kąt
