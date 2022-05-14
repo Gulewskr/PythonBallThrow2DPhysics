@@ -9,7 +9,7 @@ if __name__ == '__main__':
     okno = pygame.display.set_mode((1000, 800))
     pygame.display.set_caption("Symulacja zderzeń")
 #                                      x    y    r    v    alfa
-    Czasteczka = czasteczki.cząsteczka(500, 400, 40, 8, 0)
+    Czasteczka = czasteczki.cząsteczka(500, 400, 40, 8, -math.pi/2)
 
     run = True
 
