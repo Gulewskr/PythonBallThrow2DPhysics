@@ -7,45 +7,39 @@ class cząsteczka():
     def __init__(self, x, y, promien, predkosc, kat):
         self.promien = promien
         self.kolor = (255, 0, 0)
-        self.y_poczatkowe = y
         self.x = x
         self.y = y
         self.kat = kat
-        self.kat_poczatkowy = kat
-        self.predkosc_x = predkosc
+        self.predkosc = predkosc
+        self.predkosc_x = 0
         self.predkosc_y = 0
-        self.g = 1.5
+        self.g = 0.9
         self.polozenia_x = []
         self.polozenia_y = []
-        self.czas = 0
-        self.opor = 2
-        self.przyspieszenie = 0
-        self.s = 0
+        self.opor = 0.5
 
     def wyswietl(self):
         pygame.draw.circle(okno, self.kolor, (self.x, self.y), self.promien, 0)
 
     def ruch(self):
-        self.czas += 0.1
-        self.przyspieszenie = self.g * self.czas
-
         '''if self.predkosc_x > 0:
             self.predkosc_x -= self.opor
         if self.predkosc_x < 0.0000001:
             self.predkosc_x = 0**'''
 
-        if self.kat >= 0:
-            self.przyspieszenie = self.przyspieszenie
-            self.predkosc_y += self.czas * self.g
-            self.y += self.g * self.czas
+        self.predkosc_x = math.cos(self.kat) * self.predkosc
+        self.predkosc_y = math.sin(self.kat) * self.predkosc
+
+        if self.kat > 0:
+            self.predkosc_y += self.g
 
         if self.kat < 0:
-            self.przyspieszenie = - self.przyspieszenie
-            self.predkosc_y -= self.g**2
-            self.y -= 0.5 * self.g * self.czas
-            print(0.5 * self.g * self.czas ** 2)
+            self.predkosc_y -= self.g
 
-        self.x += math.cos(self.kat_poczatkowy) * self.predkosc_x
+        print(self.kat)
+
+        self.x += self.predkosc_x
+        self.y += self.predkosc_y
 
         self.polozenia_x.append(self.x)
         self.polozenia_y.append(self.y)
@@ -57,20 +51,12 @@ class cząsteczka():
             if wektorx != 0:
                 self.kat = math.atan(wektory / wektorx)
 
-        self.predkosc_y = self.predkosc_y * math.cos(self.kat)
-
     def odbicie(self):
-        if self.y > 800 - self.promien:
-            #self.y = 2 * (800 - self.promien - 10) - self.y
+        if self.y > 800 - self.promien - 10:
             self.kat = - self.kat
-            self.kat_poczatkowy = - self.kat_poczatkowy
 
-        if self.y < 0 + self.promien:
+        if self.y < 0 + self.promien + 10:
             self.kat = - self.kat
-            self.kat = - self.kat_poczatkowy
-
-        #if self.y > 800 - self.promien + 5:
-            #self.y = 800 - self.promien + int(0.04*self.promien)
 
         if self.x < 0:
             self.kat = math.pi - self.kat
