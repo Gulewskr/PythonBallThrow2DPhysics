@@ -20,6 +20,7 @@ class cząsteczka():
         self.czas = 0
         self.opor = 2
         self.przyspieszenie = 0
+        self.s = 0
 
     def wyswietl(self):
         pygame.draw.circle(okno, self.kolor, (self.x, self.y), self.promien, 0)
@@ -36,14 +37,13 @@ class cząsteczka():
         if self.kat >= 0:
             self.przyspieszenie = self.przyspieszenie
             self.predkosc_y += self.czas * self.g
-            self.y += 0.5 * self.g * self.czas ** 2
-            print(math.sin(self.kat_poczatkowy) * self.predkosc_y)
+            self.y += self.g * self.czas
 
         if self.kat < 0:
             self.przyspieszenie = - self.przyspieszenie
             self.predkosc_y -= self.g**2
-            print(self.predkosc_y)
-
+            self.y -= 0.5 * self.g * self.czas
+            print(0.5 * self.g * self.czas ** 2)
 
         self.x += math.cos(self.kat_poczatkowy) * self.predkosc_x
 
