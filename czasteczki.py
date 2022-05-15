@@ -13,12 +13,12 @@ class cząsteczka():
         self.kat = kat
         self.kat_poczatkowy = kat
         self.predkosc_x = predkosc
-        self.predkosc_y = predkosc * math.cos(kat)
-        self.g = 0.4
+        self.predkosc_y = 0
+        self.g = 1.5
         self.polozenia_x = []
         self.polozenia_y = []
         self.czas = 0
-        self.opor = 2;
+        self.opor = 2
         self.przyspieszenie = 0
 
     def wyswietl(self):
@@ -34,16 +34,18 @@ class cząsteczka():
             self.predkosc_x = 0**'''
 
         if self.kat >= 0:
-            #self.y -= math.sin(self.kąt) * self.predkosc_x
-            #self.y += self.g*(self.czas**2)
             self.przyspieszenie = self.przyspieszenie
+            self.predkosc_y += self.czas * self.g
+            self.y += 0.5 * self.g * self.czas ** 2
+            print(math.sin(self.kat_poczatkowy) * self.predkosc_y)
 
         if self.kat < 0:
-            #self.y -= self.g*self.czas - self.g*(self.czas**2)
             self.przyspieszenie = - self.przyspieszenie
+            self.predkosc_y -= self.g**2
+            print(self.predkosc_y)
+
 
         self.x += math.cos(self.kat_poczatkowy) * self.predkosc_x
-        self.y += self.predkosc_y*self.czas + 0.5 * self.przyspieszenie * self.czas**2
 
         self.polozenia_x.append(self.x)
         self.polozenia_y.append(self.y)
