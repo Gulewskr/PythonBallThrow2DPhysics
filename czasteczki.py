@@ -18,9 +18,9 @@ class cząsteczka():
         self.polozenia_y = []
         self.katy = []
         self.czas_wznoszenia = 0
+        self.prev_wznoszenia = 0
         self.czas_opadania = 0
-        self.czasy_wznoszenia = []
-        self.czasy_opadania = []
+        self.prev_opadania = 0
         self.wznoszenie = False
         self.opadanie = True
         self.v0 = 0
@@ -29,10 +29,10 @@ class cząsteczka():
         pygame.draw.circle(okno, self.kolor, (self.x, self.y), self.promien, 0)
 
     def ruch(self):
-        '''if self.predkosc_x > 0:
+        """if self.predkosc_x > 0:
             self.predkosc_x -= self.opor
         if self.predkosc_x < 0.0000001:
-            self.predkosc_x = 0**'''
+            self.predkosc_x = 0"""
 
         self.x += math.cos(self.kat) * self.predkosc
 
@@ -40,18 +40,15 @@ class cząsteczka():
 
         if self.kat > 0:
             self.czas_opadania += 0.1
-            self.czasy_opadania.append(self.czas_opadania)
             self.y += self.g * self.czas_opadania
 
         if self.kat <= 0:
+            print(self.prev_opadania)
             self.czas_wznoszenia += 0.1
-            self.czasy_wznoszenia.append(self.czas_wznoszenia)
-            self.y -= self.g * self.czas_wznoszenia
+            self.y -= self.prev_opadania * self.g - self.g * self.czas_wznoszenia
 
         self.polozenia_x.append(self.x)
         self.polozenia_y.append(self.y)
-
-        print(self.czasy_opadania)
 
         if len(self.polozenia_x) > 1:
             wektorx = self.polozenia_x[len(self.polozenia_x)-1] - self.polozenia_x[len(self.polozenia_x)-2]
@@ -62,21 +59,16 @@ class cząsteczka():
                 self.kat = math.atan(wektory / wektorx)
 
         self.katy.append(self.kat)
+        if 800 - self.promien - 30 < self.y < 800 - self.promien - 10:
+            self.prev_opadania = self.czas_opadania
 
         if self.katy[len(self.katy) - 1] < self.katy[len(self.katy) - 2]:
+            #self.prev_wznoszenia = self.czas_wznoszenia
             self.czas_wznoszenia = 0
 
-
         if self.katy[len(self.katy) - 1] > self.katy[len(self.katy) - 2]:
+            #self.prev_opadania = self.czas_opadania
             self.czas_opadania = 0
-
-        if self.kat > 0:
-            self.opadanie = True
-            self.wznoszenie = False
-
-        if self.kat < 0:
-            self.opadanie = False
-            self.wznoszenie = True
 
     def odbicie(self):
         if self.y > 800 - self.promien - 20:
