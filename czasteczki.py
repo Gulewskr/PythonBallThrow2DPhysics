@@ -19,8 +19,11 @@ class cząsteczka():
         self.katy = []
         self.czas_wznoszenia = 0
         self.czas_opadania = 0
+        self.czasy_wznoszenia = []
+        self.czasy_opadania = []
         self.wznoszenie = False
         self.opadanie = True
+        self.v0 = 0
 
     def wyswietl(self):
         pygame.draw.circle(okno, self.kolor, (self.x, self.y), self.promien, 0)
@@ -32,22 +35,23 @@ class cząsteczka():
             self.predkosc_x = 0**'''
 
         self.x += math.cos(self.kat) * self.predkosc
-        self.predkosc_y = math.sin(self.kat) * self.predkosc
 
         self.polozenia_x.append(self.x)
 
         if self.kat > 0:
             self.czas_opadania += 0.1
-            print(self.g * self.czas_opadania)
+            self.czasy_opadania.append(self.czas_opadania)
             self.y += self.g * self.czas_opadania
 
-        if self.kat < 0:
-            self.czas_wznoszenia += 0.01
-
-            print(self.czas_wznoszenia)
+        if self.kat <= 0:
+            self.czas_wznoszenia += 0.1
+            self.czasy_wznoszenia.append(self.czas_wznoszenia)
+            self.y -= self.g * self.czas_wznoszenia
 
         self.polozenia_x.append(self.x)
         self.polozenia_y.append(self.y)
+
+        print(self.czasy_opadania)
 
         if len(self.polozenia_x) > 1:
             wektorx = self.polozenia_x[len(self.polozenia_x)-1] - self.polozenia_x[len(self.polozenia_x)-2]
@@ -62,6 +66,7 @@ class cząsteczka():
         if self.katy[len(self.katy) - 1] < self.katy[len(self.katy) - 2]:
             self.czas_wznoszenia = 0
 
+
         if self.katy[len(self.katy) - 1] > self.katy[len(self.katy) - 2]:
             self.czas_opadania = 0
 
@@ -74,7 +79,7 @@ class cząsteczka():
             self.wznoszenie = True
 
     def odbicie(self):
-        if self.y > 800 - self.promien - 10:
+        if self.y > 800 - self.promien - 20:
             self.kat = - self.kat
 
         if self.y < 0 + self.promien + 10:
