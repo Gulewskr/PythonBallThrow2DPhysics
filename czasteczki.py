@@ -38,12 +38,11 @@ class cząsteczka():
 
         self.polozenia_x.append(self.x)
 
-        if self.kat > 0:
+        if 0 < self.kat < math.pi:
             self.czas_opadania += 0.1
             self.y += self.g * self.czas_opadania
 
-        if self.kat <= 0:
-            print(self.prev_opadania)
+        if  math.pi < self.kat < 2 * math.pi:
             self.czas_wznoszenia += 0.1
             self.y -= self.prev_opadania * self.g - self.g * self.czas_wznoszenia
 
@@ -52,10 +51,12 @@ class cząsteczka():
 
         if len(self.polozenia_x) > 1:
             wektorx = self.polozenia_x[len(self.polozenia_x)-1] - self.polozenia_x[len(self.polozenia_x)-2]
+            print(wektorx)
             wektory = self.polozenia_y[len(self.polozenia_y) - 1] - self.polozenia_y[len(self.polozenia_y) - 2]
             wektorv = math.sqrt(wektorx**2 + wektory**2)
 
             if wektorx != 0:
+                print(1)
                 self.kat = math.atan(wektory / wektorx)
 
         self.katy.append(self.kat)
@@ -72,10 +73,10 @@ class cząsteczka():
 
     def odbicie(self):
         if self.y > 800 - self.promien - 20:
-            self.kat = - self.kat
+            self.kat = math.pi + self.kat
 
         if self.y < 0 + self.promien + 10:
-            self.kat = - self.kat
+            self.kat = math.pi + self.kat
 
         if self.x < 0 + self.promien + 10:
             self.kat = math.pi - self.kat
