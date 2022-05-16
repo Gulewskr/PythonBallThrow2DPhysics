@@ -1,5 +1,6 @@
 import math
 import pygame
+import numpy as np
 
 okno = pygame.display.set_mode((1000, 800))
 
@@ -26,6 +27,7 @@ class cząsteczka():
         pygame.draw.circle(okno, self.kolor, (self.x, self.y), self.promien, 0)
 
     def ruch(self):
+        self.tick += 1
         self.x += math.cos(self.kat) * self.predkosc
 
         if 0 < self.kat:
@@ -39,16 +41,15 @@ class cząsteczka():
         self.polozenia_x.append(self.x)
         self.polozenia_y.append(self.y)
 
-        # if len(self.polozenia_x) > 1:
-        #     wektorx = self.polozenia_x[len(self.polozenia_x)-1] - self.polozenia_x[len(self.polozenia_x)-2]
-        #     wektory = self.polozenia_y[len(self.polozenia_y) - 1] - self.polozenia_y[len(self.polozenia_y) - 2]
-        #     wektorv = math.sqrt(wektorx**2 + wektory**2)
-        #
-        #     if wektorx == 0:
-        #         self.kat = math.pi/2
-        #
-        #     elif wektorx != 0:
-        #         self.kat = math.atan(wektory / wektorx)
+        if len(self.polozenia_x) > 1:
+            wektorx = self.polozenia_x[len(self.polozenia_x)-1] - self.polozenia_x[len(self.polozenia_x)-2]
+            wektory = self.polozenia_y[len(self.polozenia_y) - 1] - self.polozenia_y[len(self.polozenia_y) - 2]
+            wektorv = math.sqrt(wektorx**2 + wektory**2)
+
+            if wektorx != 0:
+                self.kat = math.atan(wektory/ wektorx)
+
+            print(self.kat)
 
         self.katy.append(self.kat)
         if 800 - self.promien - 30 < self.y < 800 - self.promien - 10:
